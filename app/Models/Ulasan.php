@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
-class Transaksi extends Model
+class Ulasan extends Model
 {
     use HasFactory;
 
@@ -18,8 +17,8 @@ class Transaksi extends Model
 
     protected $fillable = [
         'id_user',
-        'id_product',
-        'jumlah',
+        'isi',
+        'status',
     ];
 
     public function getCreatedAtAttribute()

@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Transaksi;
+use App\Models\Ulasan;
 
-class TransaksiController extends Controller
+class UlasanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,12 +17,12 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $transaksis = Transaksi::all();
+        $ulasans = Ulasan::all();
 
-        if (count($transaksis) > 0) {
+        if (count($ulasans) > 0) {
             return response([
                 'message' => 'Retrieve All Success',
-                'data' => $transaksis
+                'data' => $ulasans
             ], 200);
         }
 
@@ -53,17 +53,17 @@ class TransaksiController extends Controller
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
             'id_user' => 'required|max:100',
-            'id_product' => 'required|max:100',
-            'jumlah' => 'required|numeric'
+            'isi' => 'required|max:100',
+            'status' => 'required|numeric'
         ]);
 
         if ($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $transaksi = Transaksi::create($storeData);
+        $ulasan = Ulasan::create($storeData);
         return response([
-            'message' => 'Add transaksi Success',
-            'data' => $transaksi
+            'message' => 'Add ulasan Success',
+            'data' => $ulasan
         ], 200);
     }
 
@@ -75,34 +75,34 @@ class TransaksiController extends Controller
      */
     public function show($id)
     {
-        $transaksi = Transaksi::find($id);
+        $ulasan = Ulasan::find($id);
 
-        if (!is_null($transaksi)) {
+        if (!is_null($ulasan)) {
             return response([
-                'message' => 'Retrieve transaksi Success',
-                'data' => $transaksi
+                'message' => 'Retrieve ulasan Success',
+                'data' => $ulasan
             ], 200);
         }
 
         return response([
-            'message' => 'transaksi Not Found',
+            'message' => 'ulasan Not Found',
             'data' => null
         ], 404);
     }
 
     public function showAllByIdUser($id)
     {
-        $transaksi = Transaksi::where('id_user', $id)->get();
+        $ulasan = Ulasan::where('id_user', $id)->get();
 
-        if (!is_null($transaksi)) {
+        if (!is_null($ulasan)) {
             return response([
-                'message' => 'Retrieve transaksi by id user Success',
-                'data' => $transaksi
+                'message' => 'Retrieve ulasan by id user Success',
+                'data' => $ulasan
             ], 200);
         }
 
         return response([
-            'message' => 'transaksi Not Found',
+            'message' => 'ulasan Not Found',
             'data' => null
         ], 404);
     }
@@ -128,33 +128,33 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaksi = Transaksi::find($id);
-        if (is_null($transaksi)) {
+        $ulasan = Ulasan::find($id);
+        if (is_null($ulasan)) {
             return response([
-                'message' => 'transaksi Not Found',
+                'message' => 'ulasan Not Found',
                 'data' => null
             ], 404);
         }
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'jumlah' => 'required|numeric'
+            'status' => 'required|numeric'
         ]);
 
         if ($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $transaksi->jumlah = $updateData['jumlah'];
+        $ulasan->status = $updateData['status'];
 
-        if ($transaksi->save()) {
+        if ($ulasan->save()) {
             return response([
-                'message' => 'Update transaksi Success',
-                'data' => $transaksi
+                'message' => 'Update ulasan Success',
+                'data' => $ulasan
             ], 200);
         }
 
         return response([
-            'message' => 'Update transaksi Failed',
+            'message' => 'Update ulasan Failed',
             'data' => null
         ], 400);
     }
@@ -167,24 +167,24 @@ class TransaksiController extends Controller
      */
     public function destroy($id)
     {
-        $transaksi = Transaksi::find($id);
+        $ulasan = Ulasan::find($id);
 
-        if (is_null($transaksi)) {
+        if (is_null($ulasan)) {
             return response([
-                'message' => 'transaksi Not Found',
+                'message' => 'ulasan Not Found',
                 'data' => null
             ], 404);
         }
 
-        if ($transaksi->delete()) {
+        if ($ulasan->delete()) {
             return response([
-                'message' => 'Delete transaksi Success',
-                'data' => $transaksi
+                'message' => 'Delete ulasan Success',
+                'data' => $ulasan
             ], 200);
         }
 
         return response([
-            'message' => 'Delete transaksi Failed',
+            'message' => 'Delete ulasan Failed',
             'data' => null
         ], 400);
     }

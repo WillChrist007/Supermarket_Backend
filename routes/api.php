@@ -32,7 +32,17 @@ Route::group(['middleware' => 'auth:api'], function(){
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('transaksi', 'Api\TransaksiController@index');
     Route::get('transaksi/{id}', 'Api\TransaksiController@show');
+    Route::get('transaksiByIdUser/{id}', 'Api\TransaksiController@showAllByIdUser');
     Route::post('transaksi', 'Api\TransaksiController@store');
     Route::put('transaksi/{id}', 'Api\TransaksiController@update');
     Route::delete('transaksi/{id}', 'Api\TransaksiController@destroy');
+});
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('ulasan', 'Api\UlasanController@index');
+    Route::get('ulasan/{id}', 'Api\UlasanController@show');
+    Route::get('ulasanByIdUser/{id}', 'Api\UlasanController@showAllByIdUser');
+    Route::post('ulasan', 'Api\UlasanController@store');
+    Route::put('ulasan/{id}', 'Api\UlasanController@update');
+    Route::delete('ulasan/{id}', 'Api\UlasanController@destroy');
 });
