@@ -28,3 +28,11 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::put('product/{id}', 'Api\ProductController@update');
     Route::delete('product/{id}', 'Api\ProductController@destroy');
 });
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::get('transaksi', 'Api\TransaksiController@index');
+    Route::get('transaksi/{id}', 'Api\TransaksiController@show');
+    Route::post('transaksi', 'Api\TransaksiController@store');
+    Route::put('transaksi/{id}', 'Api\TransaksiController@update');
+    Route::delete('transaksi/{id}', 'Api\TransaksiController@destroy');
+});

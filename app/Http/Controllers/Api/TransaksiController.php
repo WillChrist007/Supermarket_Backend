@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Product;
+use App\Models\Transaksi;
 
-use function PHPUnit\Framework\returnSelf;
-
-class ProductController extends Controller
+class TransaksiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,12 +17,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $transaksis = Transaksi::all();
 
-        if (count($products) > 0) {
+        if (count($transaksis) > 0) {
             return response([
                 'message' => 'Retrieve All Success',
-                'data' => $products
+                'data' => $transaksis
             ], 200);
         }
 
@@ -54,19 +52,18 @@ class ProductController extends Controller
     {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-            'nama_product' => 'required|max:100',
-            'jenis' => 'required',
-            'ketersediaan' => 'required|numeric',
-            'harga' => 'required|numeric',
+            'id_user' => 'required|max:100',
+            'id_product' => 'required|max:100',
+            'jumlah' => 'required|numeric'
         ]);
 
-        if($validate->fails())
+        if ($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $product = Product::create($storeData);
+        $transaksi = Transaksi::create($storeData);
         return response([
-            'message' => 'Add product Success',
-            'data' => $product
+            'message' => 'Add transaksi Success',
+            'data' => $transaksi
         ], 200);
     }
 
@@ -78,20 +75,55 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        $transaksi = Transaksi::find($id);
 
-        if (!is_null($product)) {
+        if (!is_null($transaksi)) {
             return response([
-                'message' => 'Retrieve product Success',
-                'data' => $product
+                'message' => 'Retrieve transaksi Success',
+                'data' => $transaksi
             ], 200);
         }
 
         return response([
-            'message' => 'product Not Found',
+            'message' => 'transaksi Not Found',
             'data' => null
         ], 404);
     }
+
+    public function showAllByIdUser($id)
+    {
+        $transaksi = Transaksi::where('id_product', $id)->get();
+
+        if (!is_null($transaksi)) {
+            return response([
+                'message' => 'Retrieve transaksi by id user Success',
+                'data' => $transaksi
+            ], 200);
+        }
+
+        return response([
+            'message' => 'transaksi Not Found',
+            'data' => null
+        ], 404);
+    }
+
+    public function showAllByIdBarang($id)
+    {
+        $transaksi = Transaksi::where('id_user', $id)->get();
+
+        if (!is_null($transaksi)) {
+            return response([
+                'message' => 'Retrieve transaksi by id barang Success',
+                'data' => $transaksi
+            ], 200);
+        }
+
+        return response([
+            'message' => 'transaksi Not Found',
+            'data' => null
+        ], 404);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -113,39 +145,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-        if (is_null($product)) {
+        $transaksi = Transaksi::find($id);
+        if (is_null($transaksi)) {
             return response([
-                'message' => 'product Not Found',
+                'message' => 'transaksi Not Found',
                 'data' => null
             ], 404);
         }
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'nama_product' => 'required|max:100',
-            'jenis' => 'required',
-            'ketersediaan' => 'required|numeric',
-            'harga' => 'required|numeric',
+            'jumlah' => 'required|numeric'
         ]);
 
         if ($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $product->nama_product = $updateData['nama_product'];
-        $product->jenis = $updateData['jenis'];
-        $product->ketersediaan = $updateData['ketersediaan'];
-        $product->harga = $updateData['harga'];
+        $transaksi->jumlah = $updateData['jumlah'];
 
-        if ($product->save()) {
+        if ($transaksi->save()) {
             return response([
-                'message' => 'Update product Success',
-                'data' => $product
+                'message' => 'Update transaksi Success',
+                'data' => $transaksi
             ], 200);
         }
 
         return response([
-            'message' => 'Update product Failed',
+            'message' => 'Update transaksi Failed',
             'data' => null
         ], 400);
     }
@@ -158,24 +184,24 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
+        $transaksi = Transaksi::find($id);
 
-        if (is_null($product)) {
+        if (is_null($transaksi)) {
             return response([
-                'message' => 'product Not Found',
+                'message' => 'transaksi Not Found',
                 'data' => null
             ], 404);
         }
 
-        if ($product->delete()) {
+        if ($transaksi->delete()) {
             return response([
-                'message' => 'Delete product Success',
-                'data' => $product
+                'message' => 'Delete transaksi Success',
+                'data' => $transaksi
             ], 200);
         }
 
         return response([
-            'message' => 'Delete product Failed',
+            'message' => 'Delete transaksi Failed',
             'data' => null
         ], 400);
     }
