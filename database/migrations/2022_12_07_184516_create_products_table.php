@@ -18,9 +18,8 @@ return new class extends Migration
 
             $table->string('nama_barang');
             $table->string('jenis');
-            $table->integer('stok');
-            $table->double('harga');
-            $table->string('image');
+            $table->boolean('ketersediaan');
+            $table->integer('harga');
             $table->timestamps();
         });
     }

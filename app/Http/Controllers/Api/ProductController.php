@@ -36,17 +36,12 @@ class ProductController extends Controller
         $validate=Validator::make($storeData,[
             'nama_barang'=>'required|max:60|unique:products',
             'jenis'=>'required',
-            'stok'=>'required|numeric',
-            'harga'=>'required|numeric',
-            'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048'
+            'ketersediaan'=>'required',
+            'harga'=>'required|numeric'
         ]);
-
-        $image_path = $request->file('image')->store('image', 'public');
 
         if($validate->fails())
             return response(['message'=>$validate->errors()],400);
-
-        $storeData['image']=$image_path;
         
         $product=Product::create($storeData);
         
@@ -88,7 +83,7 @@ class ProductController extends Controller
         $validate = Validator::make($updateData, [
             'nama_barang'=>'required|max:60|unique:products',
             'jenis'=>'required',
-            'stok'=>'required|numeric',
+            'ketersediaan'=>'required',
             'harga'=>'required|numeric'
         ]);
 
@@ -97,7 +92,7 @@ class ProductController extends Controller
 
         $product->nama_barang = $updateData['nama_barang'];
         $product->jenis = $updateData['jenis'];
-        $product->stok = $updateData['stok'];
+        $product->ketersediaan = $updateData['ketersediaan'];
         $product->harga = $updateData['harga'];
 
         if($product->save()){

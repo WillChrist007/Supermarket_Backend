@@ -13,9 +13,8 @@ class Product extends Model
     protected $fillable=[
         'nama_barang',
         'jenis',
-        'stok',
-        'harga',
-        'image'
+        'ketersediaan',
+        'harga'
     ];
 
     public function getCreatedAtAttribute(){
