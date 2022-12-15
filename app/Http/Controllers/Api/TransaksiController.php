@@ -188,4 +188,28 @@ class TransaksiController extends Controller
             'data' => null
         ], 400);
     }
+
+    public function deleteAllByIdUser($id)
+    {
+        $transaksi = Transaksi::where('id_user', $id)->get();
+
+        if (is_null($transaksi)) {
+            return response([
+                'message' => 'transaksi Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        if ($transaksi->delete()) {
+            return response([
+                'message' => 'Delete transaksi Success',
+                'data' => $transaksi
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Delete transaksi Failed',
+            'data' => null
+        ], 400);
+    }
 }
