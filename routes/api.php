@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');
+Route::post('logout', 'Api\AuthController@logout');
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('product', 'Api\ProductController@index');
@@ -27,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('product', 'Api\ProductController@store');
     Route::put('product/{id}', 'Api\ProductController@update');
     Route::delete('product/{id}', 'Api\ProductController@destroy');
+    Route::post('logout', 'Api\AuthController@logout');
 });
 
 Route::group(['middleware' => 'auth:api'], function(){
@@ -36,6 +38,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('transaksi', 'Api\TransaksiController@store');
     Route::put('transaksi/{id}', 'Api\TransaksiController@update');
     Route::delete('transaksi/{id}', 'Api\TransaksiController@destroy');
+    Route::post('logout', 'Api\AuthController@logout');
 });
 
 Route::group(['middleware' => 'auth:api'], function() {
@@ -45,4 +48,5 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('ulasan', 'Api\UlasanController@store');
     Route::put('ulasan/{id}', 'Api\UlasanController@update');
     Route::delete('ulasan/{id}', 'Api\UlasanController@destroy');
+    Route::post('logout', 'Api\AuthController@logout');
 });
