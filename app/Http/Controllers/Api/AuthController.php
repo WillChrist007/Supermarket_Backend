@@ -51,7 +51,8 @@ class AuthController extends Controller
         $user = Auth::user();
         $token = $user->createToken('Authentication Token')->accessToken;
 
-        return response([
+        return response()->json([
+            'success' => true,
             'message' => 'Authenticated',
             'user' => $user,
             'token_type' => 'Bearer',
@@ -62,7 +63,7 @@ class AuthController extends Controller
     public function logout(){
         $user = Auth::user()->token();
         $user->revoke();
-        return response([
+        return response()->json([
             'message'=>'Logout Success'
         ],200);
     }
