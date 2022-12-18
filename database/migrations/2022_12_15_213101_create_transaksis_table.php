@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_product');
             $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
             $table->integer('jumlah');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

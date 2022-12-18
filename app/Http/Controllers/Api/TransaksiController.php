@@ -54,7 +54,8 @@ class TransaksiController extends Controller
         $validate = Validator::make($storeData, [
             'id_user' => 'required|max:100',
             'id_product' => 'required|max:100',
-            'jumlah' => 'required|numeric'
+            'jumlah' => 'required|numeric',
+            'status' => 'required|numeric'
         ]);
 
         if ($validate->fails())
@@ -138,13 +139,15 @@ class TransaksiController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'jumlah' => 'required|numeric'
+            'jumlah' => 'required|numeric',
+            'status' => 'required|numeric'
         ]);
 
         if ($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
         $transaksi->jumlah = $updateData['jumlah'];
+        $transaksi->status = $updateData['status'];
 
         if ($transaksi->save()) {
             return response([
@@ -168,30 +171,6 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         $transaksi = Transaksi::find($id);
-
-        if (is_null($transaksi)) {
-            return response([
-                'message' => 'transaksi Not Found',
-                'data' => null
-            ], 404);
-        }
-
-        if ($transaksi->delete()) {
-            return response([
-                'message' => 'Delete transaksi Success',
-                'data' => $transaksi
-            ], 200);
-        }
-
-        return response([
-            'message' => 'Delete transaksi Failed',
-            'data' => null
-        ], 400);
-    }
-
-    public function deleteAllByIdUser($id)
-    {
-        $transaksi = Transaksi::where('id_user', $id)->get();
 
         if (is_null($transaksi)) {
             return response([

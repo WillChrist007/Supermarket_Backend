@@ -20,6 +20,7 @@ class Transaksi extends Model
         'id_user',
         'id_product',
         'jumlah',
+        'status',
     ];
 
     public function getCreatedAtAttribute()
