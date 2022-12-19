@@ -36,4 +36,9 @@ class Transaksi extends Model
             return Carbon::parse($this->attributes['update_at'])->format('Y-m-d H:i:s');
         }
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'id_product');
+    }
 }

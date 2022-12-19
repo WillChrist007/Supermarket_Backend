@@ -17,7 +17,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $transaksis = Transaksi::all();
+        $transaksis = Transaksi::with('product')->latest()->get();
 
         if (count($transaksis) > 0) {
             return response([
@@ -30,6 +30,8 @@ class TransaksiController extends Controller
             'message' => 'Empty',
             'data' => null
         ], 400);
+
+
     }
 
     /**
@@ -76,7 +78,7 @@ class TransaksiController extends Controller
      */
     public function show($id)
     {
-        $transaksi = Transaksi::find($id);
+        $transaksi = Transaksi::with('product')->find($id);
 
         if (!is_null($transaksi)) {
             return response([
@@ -93,7 +95,7 @@ class TransaksiController extends Controller
 
     public function showAllByIdUser($id)
     {
-        $transaksi = Transaksi::where('id_user', $id)->get();
+        $transaksi = Transaksi::with('product')->where('id_user', $id)->get();
 
         if (!is_null($transaksi)) {
             return response([
@@ -139,14 +141,12 @@ class TransaksiController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'jumlah' => 'required|numeric',
             'status' => 'required|numeric'
         ]);
 
         if ($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $transaksi->jumlah = $updateData['jumlah'];
         $transaksi->status = $updateData['status'];
 
         if ($transaksi->save()) {
