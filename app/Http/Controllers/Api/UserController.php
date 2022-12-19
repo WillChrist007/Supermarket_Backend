@@ -57,8 +57,8 @@ class UserController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'email'=>'required|email:rfc,dns|unique:users',
-            'password'=>['required', 'string', Password::min(8)->mixedCase()->numbers()->symbols()],
+            'email'=>'required',
+            'password'=>'required',
             'nama'=>'required|max:60',
             'telepon' => 'required|numeric|digits_between:11,13|starts_with:08',
             'alamat' => 'required'
@@ -66,6 +66,8 @@ class UserController extends Controller
 
         if($validate->fails())
             return response(['message' => $validate->error()], 400);
+
+        $updateData['password'] = bcrypt($request->password);
 
         $user->email = $updateData['email'];
         $user->password = $updateData['password'];

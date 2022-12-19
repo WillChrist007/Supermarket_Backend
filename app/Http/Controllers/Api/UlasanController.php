@@ -138,6 +138,7 @@ class UlasanController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
+            'isi' => 'required',
             'status' => 'required|numeric'
         ]);
 
@@ -145,6 +146,7 @@ class UlasanController extends Controller
             return response(['message' => $validate->errors()], 400);
 
         $ulasan->status = $updateData['status'];
+        $ulasan->isi = $updateData['isi'];
 
         if ($ulasan->save()) {
             return response([
