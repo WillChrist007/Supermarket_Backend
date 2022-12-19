@@ -190,4 +190,44 @@ class UlasanController extends Controller
             'data' => null
         ], 400);
     }
+
+    /**
+     * confimr the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function confirm(Request $request, $id)
+    {
+        $ulasan = Ulasan::find($id);
+        if (is_null($ulasan)) {
+            return response([
+                'message' => 'ulasan Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        $updateData = $request->all();
+        $validate = Validator::make($updateData, [
+            'status' => 'required|numeric'
+        ]);
+
+        if ($validate->fails())
+            return response(['message' => $validate->errors()], 400);
+
+        $ulasan->status = $updateData['status'];
+
+        if ($ulasan->save()) {
+            return response([
+                'message' => 'Update ulasan Success',
+                'data' => $ulasan
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Update ulasan Failed',
+            'data' => null
+        ], 400);
+    }
 }

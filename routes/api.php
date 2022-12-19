@@ -20,7 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');
-Route::post('logout', 'Api\AuthController@logout');
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('product', 'Api\ProductController@index');
@@ -42,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('ulasan', 'Api\UlasanController@store');
     Route::put('ulasan/{id}', 'Api\UlasanController@update');
     Route::delete('ulasan/{id}', 'Api\UlasanController@destroy');
+    Route::put('ulasanConfirm/{id}', 'Api\UlasanController@confirm');
 
     Route::get('user', 'Api\UserController@index');
     Route::get('user/{id}', 'Api\UserController@show');

@@ -54,7 +54,7 @@ class ProductController extends Controller
     {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-            'nama_product' => 'required|max:100',
+            'nama_barang' => 'required|max:100',
             'jenis' => 'required',
             'ketersediaan' => 'required|numeric',
             'harga' => 'required|numeric',
@@ -64,7 +64,7 @@ class ProductController extends Controller
             return response(['message' => $validate->errors()], 400);
 
         $product = Product::create($storeData);
-        return response([
+        return response()->json([
             'message' => 'Add product Success',
             'data' => $product
         ], 200);
@@ -123,7 +123,7 @@ class ProductController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'nama_product' => 'required|max:100',
+            'nama_barang' => 'required|max:100',
             'jenis' => 'required',
             'ketersediaan' => 'required|numeric',
             'harga' => 'required|numeric',
@@ -132,7 +132,7 @@ class ProductController extends Controller
         if ($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $product->nama_product = $updateData['nama_product'];
+        $product->nama_barang = $updateData['nama_barang'];
         $product->jenis = $updateData['jenis'];
         $product->ketersediaan = $updateData['ketersediaan'];
         $product->harga = $updateData['harga'];
